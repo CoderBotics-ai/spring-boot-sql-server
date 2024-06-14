@@ -1,40 +1,37 @@
-package com.bezkoder.spring.mssql.model;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.Table;
+package com.bezkoder.spring.mongodb.model;
 
-@Entity
-@Table(name = "tutorials")
+import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.Document;
+
+import java.util.Date;
+
+@Document(collection = "tutorials")
 public class Tutorial {
 
   @Id
-  @GeneratedValue(strategy = GenerationType.AUTO)
-  private long id;
-
-  @Column(name = "title")
+  private String id;
+  
   private String title;
-
-  @Column(name = "description")
   private String description;
-
-  @Column(name = "published")
   private boolean published;
+  private Date createdAt;
+  private Date updatedAt;
 
   public Tutorial() {
-
+    this.createdAt = new Date();
+    this.updatedAt = new Date();
   }
 
   public Tutorial(String title, String description, boolean published) {
     this.title = title;
     this.description = description;
     this.published = published;
+    this.createdAt = new Date();
+    this.updatedAt = new Date();
   }
 
-  public long getId() {
+  public String getId() {
     return id;
   }
 
@@ -44,6 +41,7 @@ public class Tutorial {
 
   public void setTitle(String title) {
     this.title = title;
+    this.updatedAt = new Date();
   }
 
   public String getDescription() {
@@ -52,6 +50,7 @@ public class Tutorial {
 
   public void setDescription(String description) {
     this.description = description;
+    this.updatedAt = new Date();
   }
 
   public boolean isPublished() {
@@ -60,11 +59,20 @@ public class Tutorial {
 
   public void setPublished(boolean isPublished) {
     this.published = isPublished;
+    this.updatedAt = new Date();
+  }
+
+  public Date getCreatedAt() {
+    return createdAt;
+  }
+
+  public Date getUpdatedAt() {
+    return updatedAt;
   }
 
   @Override
   public String toString() {
-    return "Tutorial [id=" + id + ", title=" + title + ", desc=" + description + ", published=" + published + "]";
+    return "Tutorial [id=" + id + ", title=" + title + ", description=" + description + ", published=" + published + 
+           ", createdAt=" + createdAt + ", updatedAt=" + updatedAt + "]";
   }
-
 }
